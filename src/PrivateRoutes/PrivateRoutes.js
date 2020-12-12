@@ -1,6 +1,6 @@
 import React from 'react';
 import RolesList from '../config/roles';
-import { Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 function PrivateRoutes(props) {
   const role = props.role || 'GUEST';
@@ -8,12 +8,12 @@ function PrivateRoutes(props) {
   return (
     <>
       <Switch>
-        {RolesList[role].map(({ path, page: PageComponent }) => (
-          <Route exact path={path}>
+        {RolesList[role].map(({ path, page: PageComponent }, index) => (
+          <Route key={index} exact path={path}>
             <PageComponent setRole={props.setRole} />
           </Route>
         ))}
-        <Route path="*" component={NotFound} />
+        {/* <Route path="*" component={NotFound} /> */}
       </Switch>
     </>
   );

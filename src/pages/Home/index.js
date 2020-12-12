@@ -1,10 +1,13 @@
 import React from 'react';
-import logo from '../images/SYNHUB_logo.png';
+import bg from '../../images/bg.jpg';
+import decorate from '../../images/decorate.jpg';
+import logo from '../../images/SYNHUB_logo.png';
 import { Button, Col, DatePicker, Form, Image, Input, Layout, Radio, Row } from 'antd';
 
 function Home() {
   const { Header, Footer, Content } = Layout;
   const { RangePicker } = DatePicker;
+
   return (
     <>
       <Layout style={{ height: '100vh' }}>
@@ -30,7 +33,7 @@ function Home() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundImage: 'url(' + 'https://img.8wallpapers.com/uploads/2019/02/9153659ff97742d7a355094a.jpg' + ')',
+            backgroundImage: `url(${bg})`,
             backgroundSize: 'cover',
           }}
         >
@@ -42,11 +45,12 @@ function Home() {
           >
             <Col span={10} style={{ height: '500px' }}>
               <Image
-                src="https://lh4.googleusercontent.com/proxy/c-hvCO5ZLSkmBkzBP7Skdp-pGTgwDqDWcyUW0ceuuaF4asFDEmtVUYrNq21ZxmBw9f32diwxSVcE5HjN6OY3zusp_MBCbzipZk39gJ5Umb8ZCqM_R91sPAIFisUFjVxs"
+                // src="https://www.milpitas-chamber.com/wp-content/uploads/2017/10/booking-tips.jpg"
+                src={decorate}
                 alt="decorate image"
                 width="100%"
                 height="100%"
-                style={{ objectFit: 'inherit' }}
+                style={{ objectFit: 'cover' }}
               />
             </Col>
             <Col span={14} style={{ height: '500px', backgroundColor: 'white' }}>
@@ -88,7 +92,7 @@ function Home() {
             backgroundColor: 'lightgreen',
           }}
         >
-          <h1>© 2020 Copyright: Ball</h1>
+          <h1>© 2020 Copyright: Nuttawat Rojboonnark</h1>
         </Footer>
       </Layout>
     </>

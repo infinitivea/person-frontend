@@ -4,6 +4,10 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function Login() {
+  const onFinish = (values) => {
+    props.setRole('USER');
+  };
+
   return (
     <>
       <Form layout="vertical">
@@ -12,14 +16,14 @@ function Login() {
             <Form.Item
               label="Username"
               name="username"
-              rules={[{ required: true, message: 'Please input your Username!' }]}
+              // rules={[{ required: true, message: 'Please input your Username!' }]}
             >
               <Input prefix={<UserOutlined />} />
             </Form.Item>
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true, message: 'Please input your Password!' }]}
+              // rules={[{ required: true, message: 'Please input your Password!' }]}
             >
               <Input prefix={<LockOutlined />} type="password" />
             </Form.Item>

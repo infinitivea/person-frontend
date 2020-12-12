@@ -1,14 +1,14 @@
 import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import { useState } from 'react';
+import PrivateRoutes from './PrivateRoutes/PrivateRoutes';
 
 function App() {
+  const [role, setRole] = useState(LocalStorageService.getRole());
+
   return (
-    <BrowserRouter>
-      <Route path="/login" component={Login}></Route>
-      <Route path="/register" component={Register}></Route>
-    </BrowserRouter>
+    <>
+      <PrivateRoutes role={role} setRole={setRole} />
+    </>
   );
 }
 

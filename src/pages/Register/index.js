@@ -44,10 +44,33 @@ function Register(props) {
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
-              <Input prefix={<LockOutlined />} type="password" />
+              <Input.Password prefix={<LockOutlined />} />
+            </Form.Item>
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: 'Please confirm your password!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject('The two passwords that you entered do not match!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password prefix={<LockOutlined />} />
             </Form.Item>
             <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input your Name!' }]}>
-              <Input prefix={<LockOutlined />} type="password" />
+              <Input />
             </Form.Item>
             <Row justify="center">
               <Form.Item>

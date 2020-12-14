@@ -1,100 +1,97 @@
-import React from 'react';
-import bg from '../../images/bg.jpg';
+import React, { useState } from 'react';
 import decorate from '../../images/decorate.jpg';
-import logo from '../../images/SYNHUB_logo.png';
-import { Button, Col, DatePicker, Form, Image, Input, Layout, Radio, Row } from 'antd';
+import { Button, Col, DatePicker, Form, Image, Input, Radio, Row } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 function Home() {
-  const { Header, Footer, Content } = Layout;
   const { RangePicker } = DatePicker;
+
+  const [form] = Form.useForm();
+  const [dateStart, setDateStart] = useState('');
+  const [dateEnd, setDateEnd] = useState('');
+  const [type, setType] = useState('Fitness');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const history = useHistory();
+
+  const onDateChange = (dates, dateStrings) => {
+    setDateStart(dateStrings[0]);
+    setDateEnd(dateStrings[1]);
+  };
+
+  const onTypeChange = (e) => {
+    setType(e.target.value);
+  };
+
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const onPhoneChange = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const onFinish = () => {
+    history.push({ pathname: '/check', state: { dateStart, dateEnd, type, email, phone } });
+  };
 
   return (
     <>
-      <Layout style={{ height: '100vh' }}>
-        <Header
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '64px',
-            backgroundColor: 'lightgreen',
-          }}
-        >
-          <img
-            src={logo}
-            alt="SYN HUB logo"
+      <Row
+        style={{
+          border: '1px solid black',
+          margin: '5% 20%',
+        }}
+      >
+        <Col span={10} style={{ height: '500px' }}>
+          <Image
+            // src="https://www.milpitas-chamber.com/wp-content/uploads/2017/10/booking-tips.jpg"
+            src={decorate}
+            alt="decorate image"
             width="100%"
-            height="64px"
-            style={{ padding: '5px 0', objectFit: 'contain' }}
+            height="100%"
+            style={{ objectFit: 'cover' }}
           />
-        </Header>
-        <Content
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundImage: `url(${bg})`,
-            backgroundSize: 'cover',
-          }}
-        >
-          <Row
-            style={{
-              border: '1px solid black',
-              margin: '5% 20%',
-            }}
-          >
-            <Col span={10} style={{ height: '500px' }}>
-              <Image
-                // src="https://www.milpitas-chamber.com/wp-content/uploads/2017/10/booking-tips.jpg"
-                src={decorate}
-                alt="decorate image"
-                width="100%"
-                height="100%"
-                style={{ objectFit: 'cover' }}
+        </Col>
+        <Col span={14} style={{ height: '500px', backgroundColor: 'white' }}>
+          <Form form={form} layout="vertical" style={{ margin: '20px 5%' }} onFinish={onFinish}>
+            <Form.Item name="dates" label={<h4>SELECT DATE AND TIME</h4>}>
+              <RangePicker
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+                size="large"
+                style={{ width: '100%' }}
+                onChange={onDateChange}
               />
-            </Col>
-            <Col span={14} style={{ height: '500px', backgroundColor: 'white' }}>
-              <Form layout="vertical" style={{ margin: '20px 5%' }}>
-                <Form.Item label={<h4>SELECT DATE AND TIME</h4>}>
-                  <RangePicker
-                    showTime={{ format: 'HH:mm' }}
-                    format="YYYY-MM-DD HH:mm"
-                    size="large"
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                <Form.Item label={<h4>BOOKING TYPE</h4>}>
-                  <Radio.Group defaultValue="a" size="large">
-                    <Radio.Button value="a">Fitness</Radio.Button>
-                    <Radio.Button value="b">Auditorium</Radio.Button>
-                    <Radio.Button value="c">Meeting Room</Radio.Button>
-                  </Radio.Group>
-                </Form.Item>
-                <Form.Item label={<h4>EMAIL</h4>}>
-                  <Input placeholder="Enter your email" size="large" />
-                </Form.Item>
-                <Form.Item label={<h4>PHONE</h4>}>
-                  <Input placeholder="Enter your phone number" size="large" />
-                </Form.Item>
-                <Button type="primary" size="large" style={{ width: '100%' }}>
-                  Check Availability
-                </Button>
-              </Form>
-            </Col>
-          </Row>
-        </Content>
-        <Footer
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '64px',
-            backgroundColor: 'lightgreen',
-          }}
-        >
-          <h1>© 2020 Copyright: Nuttawat Rojboonnark</h1>
-        </Footer>
-      </Layout>
+            </Form.Item>
+            <Form.Item name="type" label={<h4>BOOKING TYPE</h4>}>
+              <Radio.Group defaultValue={type} size="large" onChange={onTypeChange}>
+                <Radio.Button value="Fitness">Fitness</Radio.Button>
+                <Radio.Button value="Auditorium">Auditorium</Radio.Button>
+                <Radio.Button value="Meeting Room">Meeting Room</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label={<h4>EMAIL</h4>}
+              rules={[{ required: true, message: 'Please input your Email!' }]}
+            >
+              <Input type="email" placeholder="Enter your email" size="large" onChange={onEmailChange} />
+            </Form.Item>
+            <Form.Item
+              name="phone"
+              label={<h4>PHONE</h4>}
+              rules={[{ required: true, message: 'Please input your Phone!' }]}
+            >
+              <Input placeholder="Enter your phone number" size="large" onChange={onPhoneChange} />
+            </Form.Item>
+            <Button htmlType="submit" type="primary" size="large" style={{ width: '100%' }}>
+              Check Availability
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 }

@@ -23,16 +23,14 @@ function Register(props) {
         layout="vertical"
         onFinish={onFinish}
         style={{
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          width: '100%',
+          height: '100%',
         }}
       >
-        <Row>
-          <Title underline="true">REGISTER</Title>
+        <Row justify="center">
+          <Title underline="true" style={{ color: 'wheat' }}>
+            REGISTER
+          </Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <Col span={12}>

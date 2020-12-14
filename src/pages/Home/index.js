@@ -16,7 +16,7 @@ function Home() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100px',
+            height: '64px',
             backgroundColor: 'lightgreen',
           }}
         >
@@ -24,7 +24,7 @@ function Home() {
             src={logo}
             alt="SYN HUB logo"
             width="100%"
-            height="100px"
+            height="64px"
             style={{ padding: '5px 0', objectFit: 'contain' }}
           />
         </Header>
@@ -88,7 +88,7 @@ function Home() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100px',
+            height: '64px',
             backgroundColor: 'lightgreen',
           }}
         >

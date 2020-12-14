@@ -32,15 +32,15 @@ function Register(props) {
         }}
       >
         <Row>
-          <Title underline="true">Register</Title>
+          <Title underline="true">REGISTER</Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <Col span={12}>
-            <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
+            <Form.Item label="EMAIL" name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
               <Input prefix={<UserOutlined />} type="email" />
             </Form.Item>
             <Form.Item
-              label="Password"
+              label="PASSWORD"
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
@@ -48,7 +48,7 @@ function Register(props) {
             </Form.Item>
             <Form.Item
               name="confirm"
-              label="Confirm Password"
+              label="CONFIRM PASSWORD"
               dependencies={['password']}
               hasFeedback
               rules={[
@@ -69,7 +69,10 @@ function Register(props) {
             >
               <Input.Password prefix={<LockOutlined />} />
             </Form.Item>
-            <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input your Name!' }]}>
+            <Form.Item label="NAME" name="name" rules={[{ required: true, message: 'Please input your Name!' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="PHONE" name="phone" rules={[{ required: true, message: 'Please input your Phone!' }]}>
               <Input />
             </Form.Item>
             <Row justify="center">

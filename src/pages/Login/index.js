@@ -25,19 +25,19 @@ function Login(props) {
         }}
       >
         <Row>
-          <Title underline="true">Login</Title>
+          <Title underline="true">LOGIN</Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <Col span={12}>
             <Form.Item
-              label="Email"
+              label="EMAIL"
               name="email"
               // rules={[{ required: true, message: 'Please input your Email!' }]}
             >
               <Input prefix={<UserOutlined />} placeholder="Please input your email." type="email" />
             </Form.Item>
             <Form.Item
-              label="Password"
+              label="PASSWORD"
               name="password"
               // rules={[{ required: true, message: 'Please input your Password!' }]}
             >

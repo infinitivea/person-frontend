@@ -25,20 +25,23 @@ function Login(props) {
         }}
       >
         <Row>
-          <Title underline="true">LOGIN</Title>
+          <Title underline="true" style={{ color: 'wheat' }}>
+            LOGIN
+          </Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <Col span={12}>
             <Form.Item
-              label="EMAIL"
+              label={<span style={{ color: 'wheat' }}>EMAIL</span>}
               name="email"
               // rules={[{ required: true, message: 'Please input your Email!' }]}
             >
               <Input prefix={<UserOutlined />} placeholder="Please input your email." type="email" />
             </Form.Item>
             <Form.Item
-              label="PASSWORD"
+              label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
               name="password"
+              style={{ color: 'wheat' }}
               // rules={[{ required: true, message: 'Please input your Password!' }]}
             >
               <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
@@ -52,7 +55,7 @@ function Login(props) {
                   <Link to="/register">Register</Link>
                 </Button>
                 <Row justify="center" style={{ margin: 8 }}>
-                  <span style={{ marginRight: 8 }}>Or</span>
+                  <span style={{ marginRight: 8, color: 'wheat' }}>Or</span>
                   <Link to="">forget password</Link>
                 </Row>
               </Form.Item>

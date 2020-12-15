@@ -8,11 +8,15 @@ function BookingResult() {
   return (
     <Result
       status="success"
-      title={`ทำการจอง ${location.state.dataSource[0].type} เรียบร้อยแล้ว!`}
-      subTitle={'หมายเลขการจอง: 2017182818828182881 ได้รับการจองแล้ว ... โปรดรอแอดมินยืนยัน'}
+      title={<span style={{ color: 'wheat' }}>ทำการจอง {location.state.dataSource[0].type} เรียบร้อยแล้ว!</span>}
+      subTitle={
+        <span style={{ color: 'white' }}>
+          หมายเลขการจอง: 2017182818828182881 ได้รับการจองแล้ว ... โปรดรอแอดมินยืนยัน
+        </span>
+      }
       extra={[
         <Button type="primary">
-          <Link to="/">กลับสู่หน้าหลัก</Link>
+          <Link to="/login">กลับสู่หน้าหลัก</Link>
         </Button>,
         <Button>
           <Link to="/">จองอีกครั้ง</Link>

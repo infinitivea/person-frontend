@@ -34,11 +34,15 @@ function Register(props) {
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
           <Col span={12}>
-            <Form.Item label="EMAIL" name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
+            <Form.Item
+              label={<span style={{ color: 'wheat' }}>EMAIL</span>}
+              name="email"
+              rules={[{ required: true, message: 'Please input your Email!' }]}
+            >
               <Input prefix={<UserOutlined />} type="email" />
             </Form.Item>
             <Form.Item
-              label="PASSWORD"
+              label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
@@ -46,7 +50,7 @@ function Register(props) {
             </Form.Item>
             <Form.Item
               name="confirm"
-              label="CONFIRM PASSWORD"
+              label={<span style={{ color: 'wheat' }}>CONFIRM PASSWORD</span>}
               dependencies={['password']}
               hasFeedback
               rules={[
@@ -67,10 +71,18 @@ function Register(props) {
             >
               <Input.Password prefix={<LockOutlined />} />
             </Form.Item>
-            <Form.Item label="NAME" name="name" rules={[{ required: true, message: 'Please input your Name!' }]}>
+            <Form.Item
+              label={<span style={{ color: 'wheat' }}>NAME</span>}
+              name="name"
+              rules={[{ required: true, message: 'Please input your Name!' }]}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label="PHONE" name="phone" rules={[{ required: true, message: 'Please input your Phone!' }]}>
+            <Form.Item
+              label={<span style={{ color: 'wheat' }}>PHONE</span>}
+              name="phone"
+              rules={[{ required: true, message: 'Please input your Phone!' }]}
+            >
               <Input />
             </Form.Item>
             <Row justify="center">
@@ -82,7 +94,7 @@ function Register(props) {
                   Reset
                 </Button>
                 <Row justify="center" style={{ margin: 8 }}>
-                  <span style={{ marginRight: 8 }}>Or</span>
+                  <span style={{ marginRight: 8, color: 'wheat' }}>Or</span>
                   <Link to="/">already member ?</Link>
                 </Row>
               </Form.Item>

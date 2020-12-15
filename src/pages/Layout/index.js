@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import bg from '../../images/bg.jpg';
 import logo from '../../images/SYNHUB_logo.png';
-import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Button, Layout } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import LocalStorageService from '../../services/LocalStorageService';
+import UserContext from '../../context/UserContext';
 
 function NavLayout({ children }) {
   const { Header, Content, Footer } = Layout;
+  const { isAuthenticated, setIsAuthenticated, setRole } = useContext(UserContext);
+  const history = useHistory();
+
+  const onClick = () => {
+    LocalStorageService.removeToken();
+    setIsAuthenticated(false);
+    setRole('GUEST');
+    history.push('/');
+  };
 
   return (
     <Layout style={{ height: '100vh' }}>
@@ -19,7 +30,16 @@ function NavLayout({ children }) {
         }}
       >
         <img src={logo} alt="SYN HUB logo" height="64px" style={{ padding: '5px 0', objectFit: 'contain' }} />
-        <Link to="/">เข้าสู่ระบบ</Link>
+        {!isAuthenticated && (
+          <Button type="link" onClick={onClick}>
+            <Link to="/home">เข้าสู่ระบบ</Link>
+          </Button>
+        )}
+        {isAuthenticated && (
+          <Button type="link" onClick={onClick}>
+            ออกจากระบบ
+          </Button>
+        )}
       </Header>
       <Content
         style={{

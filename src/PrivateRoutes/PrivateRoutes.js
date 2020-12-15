@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import RolesList from '../config/roles';
 import { Route, Switch } from 'react-router-dom';
 import NavLayout from '../pages/Layout/index';
+import UserContext from '../context/UserContext';
 
 function PrivateRoutes(props) {
-  const role = props.role || 'GUEST';
+  const { role } = useContext(UserContext);
 
   return (
     <>
@@ -12,7 +13,7 @@ function PrivateRoutes(props) {
         {RolesList[role].map(({ path, page: PageComponent }, index) => (
           <Route key={index} exact path={path}>
             <NavLayout>
-              <PageComponent role={role} setRole={props.setRole} />
+              <PageComponent />
             </NavLayout>
           </Route>
         ))}

@@ -16,7 +16,7 @@ function BookingResult() {
       }
       extra={[
         <Button type="primary">
-          <Link to="/login">กลับสู่หน้าหลัก</Link>
+          <Link to="/">กลับสู่หน้าหลัก</Link>
         </Button>,
         <Button>
           <Link to="/">จองอีกครั้ง</Link>

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import decorate from '../../images/decorate.jpg';
 import { Button, Col, DatePicker, Form, Image, Input, Radio, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
+import UserContext from '../../context/UserContext';
+import axios from '../../config/axios';
 
 function Home() {
   const { RangePicker } = DatePicker;
@@ -13,7 +15,20 @@ function Home() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
+  const { id } = useContext(UserContext);
   const history = useHistory();
+
+  useEffect(() => {
+    axios.get(`/users?id=${id}`).then((res) => {
+      console.log(id);
+      if (res.data !== null) {
+        form.setFieldsValue({
+          email: res.data.email,
+          phone: res.data.phone,
+        });
+      }
+    });
+  }, []);
 
   const onDateChange = (dates, dateStrings) => {
     setDateStart(dateStrings[0]);

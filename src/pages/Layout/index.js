@@ -8,6 +8,7 @@ import UserContext from '../../context/UserContext';
 
 function NavLayout({ children }) {
   const { Header, Content, Footer } = Layout;
+
   const { isAuthenticated, setIsAuthenticated, setRole } = useContext(UserContext);
   const history = useHistory();
 

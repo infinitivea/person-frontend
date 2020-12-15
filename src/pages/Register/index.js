@@ -24,7 +24,6 @@ function Register(props) {
         onFinish={onFinish}
         style={{
           width: '100%',
-          height: '100%',
         }}
       >
         <Row justify="center">

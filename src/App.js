@@ -10,7 +10,9 @@ function App() {
 
   return (
     <>
-      <UserContext.Provider value={{ role, setRole, isAuthenticated, setIsAuthenticated }}>
+      <UserContext.Provider
+        value={{ role, setRole, isAuthenticated, setIsAuthenticated, id: LocalStorageService.getId() }}
+      >
         <PrivateRoutes />
       </UserContext.Provider>
     </>

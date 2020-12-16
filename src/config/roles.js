@@ -1,7 +1,9 @@
+import Admin from '../pages/Admin';
 import CheckAvailability from '../pages/CheckAvailability';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import RegisterPartner from '../pages/Register/Partner';
 import Result from '../pages/Result';
 
 const components = {
@@ -12,6 +14,14 @@ const components = {
   register: {
     path: '/register',
     page: Register,
+  },
+  registerP: {
+    path: '/p/register',
+    page: RegisterPartner,
+  },
+  admin: {
+    path: '/admin',
+    page: Admin,
   },
   home: {
     path: '/home',
@@ -28,8 +38,17 @@ const components = {
 };
 
 const roles = {
-  GUEST: [components.login, components.register],
+  GUEST: [
+    components.login,
+    components.register,
+    components.registerP,
+    components.home,
+    components.check,
+    components.result,
+  ],
   USER: [components.home, components.check, components.result],
+  PARTNER: [components.home, components.check, components.result],
+  ADMIN: [components.admin],
 };
 
 export default roles;

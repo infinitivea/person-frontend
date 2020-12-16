@@ -1,21 +1,26 @@
-import React, { useContext } from 'react';
-import { Form, Input, Button, Row, Col, Typography } from 'antd';
+import React, { useContext, useState } from 'react';
+import { Form, Input, Button, Row, Col, Typography, Radio } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 
-function Register() {
+function Partner() {
   const { Title } = Typography;
 
   const { setRole } = useContext(UserContext);
   const [form] = Form.useForm();
+  const [type, setType] = useState('Fitness');
+
+  const onTypeChange = (e) => {
+    setType(e.target.value);
+  };
 
   const onReset = () => {
     form.resetFields();
   };
 
   const onFinish = () => {
-    setRole('USER');
+    setRole('PARTNER');
   };
 
   return (
@@ -30,7 +35,7 @@ function Register() {
       >
         <Row justify="center">
           <Title underline="true" style={{ color: 'wheat' }}>
-            REGISTER - MEMBER
+            REGISTER - PARTNER
           </Title>
         </Row>
         <Row justify="center" style={{ width: '100%' }}>
@@ -73,11 +78,22 @@ function Register() {
               <Input.Password prefix={<LockOutlined />} />
             </Form.Item>
             <Form.Item
-              label={<span style={{ color: 'wheat' }}>NAME</span>}
+              label={<span style={{ color: 'wheat' }}>COMPANY NAME</span>}
               name="name"
               rules={[{ required: true, message: 'Please input your Name!' }]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              name="type"
+              label={<span style={{ color: 'wheat' }}>COMPANY TYPE</span>}
+              rules={[{ required: true, message: 'Please select your Type!' }]}
+            >
+              <Radio.Group defaultValue={type} size="large" buttonStyle="solid" onChange={onTypeChange}>
+                <Radio.Button value="Fitness">Fitness</Radio.Button>
+                <Radio.Button value="Auditorium">Auditorium</Radio.Button>
+                <Radio.Button value="Meeting Room">Meeting Room</Radio.Button>
+              </Radio.Group>
             </Form.Item>
             <Form.Item
               label={<span style={{ color: 'wheat' }}>PHONE</span>}
@@ -95,9 +111,9 @@ function Register() {
                   Reset
                 </Button>
                 <Row justify="center" style={{ margin: 8 }}>
-                  <Link to="/p/register">Register as partner</Link>
+                  <Link to="/register">Register as member</Link>
                   <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
-                  <Link to="/">already member ?</Link>
+                  <Link to="/">already partner ?</Link>
                 </Row>
               </Form.Item>
             </Row>
@@ -108,4 +124,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Partner;

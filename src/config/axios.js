@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 axios.interceptors.request.use(
   (config) => {
-    if (config.url.includes('/login') || config.url.includes('/register')) {
+    if (config.url.includes('/login') || config.url.includes('/register') || config.url.includes('/p/register')) {
       return config;
     }
 

@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import logo from '../../../images/SYNHUB_logo.png';
 import { Layout, Menu, Breadcrumb, notification, Badge } from 'antd';
 import { UserOutlined, LaptopOutlined, LogoutOutlined, NotificationOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../../../context/UserContext';
 import LocalStorageService from '../../../services/LocalStorageService';
+import { Footer } from 'antd/lib/layout/layout';
 
 function AdminLayout({ children }) {
   const { SubMenu } = Menu;
@@ -23,6 +24,8 @@ function AdminLayout({ children }) {
     history.push('/');
   };
 
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <Layout style={{ height: '100vh' }}>
       <Header
@@ -37,7 +40,7 @@ function AdminLayout({ children }) {
         <img src={logo} alt="SYN HUB logo" height="64px" style={{ padding: '5px 0', objectFit: 'contain' }} />
       </Header>
       <Layout>
-        <Sider width={200} className="site-layout-background">
+        <Sider width={200} theme="light" collapsible collapsed={collapsed} onCollapse={setCollapsed}>
           <Menu
             mode="inline"
             defaultSelectedKeys={['1']}
@@ -45,9 +48,18 @@ function AdminLayout({ children }) {
             style={{ height: '100%', borderRight: 0 }}
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="Account Management">
-              <Menu.Item key="1">Member</Menu.Item>
-              <Menu.Item key="2">Partner</Menu.Item>
-              <Menu.Item key="3">Admin</Menu.Item>
+              <Menu.Item key="1">
+                <span>Member</span>
+                <Link to="/admin/users" />
+              </Menu.Item>
+              <Menu.Item key="2">
+                <span>Partner</span>
+                <Link to="/admin/partners" />
+              </Menu.Item>
+              <Menu.Item key="3">
+                <span>Admin</span>
+                <Link to="/admin/admins" />
+              </Menu.Item>
             </SubMenu>
             <Menu.Item key="4" icon={<LaptopOutlined />}>
               Review Management
@@ -75,6 +87,7 @@ function AdminLayout({ children }) {
           >
             {children}
           </Content>
+          <Footer style={{ textAlign: 'center' }}>© 2020 Copyright: Nuttawat Rojboonnark</Footer>
         </Layout>
       </Layout>
     </Layout>

@@ -43,11 +43,26 @@ function Login(props) {
   const onPartnerFinish = (values) => {};
 
   const onAdminFinish = (values) => {
-    setRole('ADMIN');
-    notification.success({
-      description: 'Login success.',
-    });
-    history.push('/admin');
+    axios
+      .post('/admins/login', {
+        username: values.username,
+        password: values.password,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Login success.',
+        });
+        LocalStorageService.setToken(res.data.token);
+        setRole('ADMIN');
+        setIsAuthenticated(true);
+        history.push('/admin/users');
+      })
+      .catch((err) => {
+        console.log(err);
+        notification.error({
+          description: 'Login failed.',
+        });
+      });
   };
 
   return (
@@ -207,8 +222,8 @@ function Login(props) {
             <Col span={12}>
               <Form.Item
                 label={<span style={{ color: 'wheat' }}>USERNAME</span>}
-                name="email"
-                // rules={[{ required: true, message: 'Please input your Username!' }]}
+                name="username"
+                rules={[{ required: true, message: 'Please input your Username!' }]}
               >
                 <Input prefix={<UserOutlined />} placeholder="Please input your username." />
               </Form.Item>
@@ -216,7 +231,7 @@ function Login(props) {
                 label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
                 name="password"
                 style={{ color: 'wheat' }}
-                // rules={[{ required: true, message: 'Please input your Password!' }]}
+                rules={[{ required: true, message: 'Please input your Password!' }]}
               >
                 <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
               </Form.Item>

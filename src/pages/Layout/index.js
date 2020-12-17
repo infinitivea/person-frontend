@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import bg from '../../images/bg.jpg';
 import logo from '../../images/SYNHUB_logo.png';
-import { Badge, Button, Col, Divider, Layout, Menu, Row } from 'antd';
+import { Badge, Button, Col, Divider, Layout, Row } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import LocalStorageService from '../../services/LocalStorageService';

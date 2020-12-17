@@ -5,14 +5,19 @@ import axios from '../../../config/axios';
 function User() {
   const [dataSource, setDataSource] = useState([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     axios.get('users/all').then((res) => {
       setDataSource(res.data);
     });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
-  const handleDelete = (key) => {
-    setDataSource({ dataSource: dataSource.filter((item) => item.key !== key) });
+  const handleDelete = (id) => {
+    setDataSource(dataSource.filter((item) => item.id !== id));
+    fetchData();
   };
 
   const columns = [
@@ -39,13 +44,12 @@ function User() {
     {
       title: 'Action',
       dataIndex: 'action',
-      render: (text, record) => (
-        <Space size="middle">
+      render: (text, record) =>
+        dataSource.length >= 1 ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
             <a>Delete</a>
           </Popconfirm>
-        </Space>
-      ),
+        ) : null,
     },
   ];
 

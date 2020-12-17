@@ -1,4 +1,6 @@
 import ManagementUser from '../pages/Admin/Management/User';
+import ManagementPartner from '../pages/Admin/Management/Partner';
+import ManagementAdmin from '../pages/Admin/Management/Admin';
 import CheckAvailability from '../pages/CheckAvailability';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -19,9 +21,17 @@ const components = {
     path: '/p/register',
     page: RegisterPartner,
   },
-  admin: {
-    path: '/admin',
+  manageUser: {
+    path: '/admin/users',
     page: ManagementUser,
+  },
+  managePartner: {
+    path: '/admin/partners',
+    page: ManagementPartner,
+  },
+  manageAdmin: {
+    path: '/admin/admins',
+    page: ManagementAdmin,
   },
   home: {
     path: '/home',
@@ -48,7 +58,7 @@ const roles = {
   ],
   USER: [components.home, components.check, components.result],
   PARTNER: [components.home, components.check, components.result],
-  ADMIN: [components.admin],
+  ADMIN: [components.manageUser, components.managePartner, components.manageAdmin],
 };
 
 export default roles;

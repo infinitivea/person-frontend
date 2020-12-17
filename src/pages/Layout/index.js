@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import bg from '../../images/bg.jpg';
 import logo from '../../images/SYNHUB_logo.png';
-import { Button, Layout } from 'antd';
+import { Badge, Button, Col, Divider, Layout, Menu, Row } from 'antd';
+import { BellOutlined } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import LocalStorageService from '../../services/LocalStorageService';
 import UserContext from '../../context/UserContext';
@@ -10,6 +11,7 @@ function NavLayout({ children }) {
   const { Header, Content, Footer } = Layout;
 
   const { isAuthenticated, setIsAuthenticated, setRole } = useContext(UserContext);
+  const [count, setCount] = useState(5);
   const history = useHistory();
 
   const onClick = () => {
@@ -37,9 +39,17 @@ function NavLayout({ children }) {
           </Button>
         )}
         {isAuthenticated && (
-          <Button type="link" onClick={onClick}>
-            ออกจากระบบ
-          </Button>
+          <Row>
+            <Col span={24}>
+              <Badge count={count} style={{ marginRight: 8 }}>
+                <Button type="primary" shape="circle" icon={<BellOutlined />} style={{ marginRight: 8 }} />
+              </Badge>
+              <Divider type="vertical" style={{ backgroundColor: 'black' }} />
+              <Button type="link" onClick={onClick}>
+                ออกจากระบบ
+              </Button>
+            </Col>
+          </Row>
         )}
       </Header>
       <Content

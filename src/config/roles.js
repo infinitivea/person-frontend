@@ -1,4 +1,4 @@
-import Admin from '../pages/Admin';
+import ManagementUser from '../pages/Admin/Management/User';
 import CheckAvailability from '../pages/CheckAvailability';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -21,7 +21,7 @@ const components = {
   },
   admin: {
     path: '/admin',
-    page: Admin,
+    page: ManagementUser,
   },
   home: {
     path: '/home',

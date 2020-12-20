@@ -1,14 +1,16 @@
-import ManagementUser from '../pages/Admin/Management/User';
+import ManagementUser from '../pages/Admin/Management/Member';
 import ManagementPartner from '../pages/Admin/Management/Partner';
 import ManagementAdmin from '../pages/Admin/Management/Admin';
-import CheckAvailability from '../pages/CheckAvailability';
-import Dashboard from '../pages/Home/Partner/Dashboard';
-import Information from '../pages/Home/Partner/Information';
-import Home from '../pages/Home';
+import CheckAvailability from '../pages/User/CheckAvailability';
+import Dashboard from '../pages/Partner/Dashboard';
+import Information from '../pages/Partner/Information';
+import Home from '../pages/User/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import RegisterPartner from '../pages/Register/Partner';
 import Result from '../pages/Result';
+import Review from '../pages/Partner/Review';
+import Booking from '../pages/Partner/Booking';
 
 const components = {
   login: {
@@ -43,6 +45,14 @@ const components = {
     path: '/partner/details',
     page: Information,
   },
+  booking: {
+    path: '/partner/bookings',
+    page: Booking,
+  },
+  review: {
+    path: '/partner/reviews',
+    page: Review,
+  },
   home: {
     path: '/home',
     page: Home,
@@ -67,7 +77,7 @@ const roles = {
     components.result,
   ],
   USER: [components.home, components.check, components.result],
-  PARTNER: [components.dashboard, components.information],
+  PARTNER: [components.dashboard, components.information, components.booking, components.review],
   ADMIN: [components.manageUser, components.managePartner, components.manageAdmin],
 };
 

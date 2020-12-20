@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Button, Row, Col, Typography, Radio, Select } from 'antd';
-import { Link } from 'react-router-dom';
-import UserContext from '../../../context/UserContext';
+import { Form, Input, Button, Row, Col, Typography, Radio, Select, TimePicker } from 'antd';
+import moment from 'moment';
+import UserContext from '../../context/UserContext';
 
 function Information() {
   const { Title } = Typography;
@@ -10,6 +10,21 @@ function Information() {
   const { setRole } = useContext(UserContext);
   const [form] = Form.useForm();
   const [type, setType] = useState('Fitness');
+
+  const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+  const [closeDay, setCloseDay] = useState([days[5], days[6]]);
+
+  const optionSelectDay = days.map((day) => (
+    <Option key={day} value={day}>
+      {day}
+    </Option>
+  ));
+
+  const format = 'HH:mm';
+
+  const onDayChange = (day) => {
+    setCloseDay(day);
+  };
 
   const onTypeChange = (e) => {
     setType(e.target.value);
@@ -22,11 +37,6 @@ function Information() {
   const onFinish = () => {
     setRole('PARTNER');
   };
-
-  const children = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-  }
 
   return (
     <Form
@@ -64,39 +74,35 @@ function Information() {
             </Radio.Group>
           </Form.Item>
           <Form.Item
-            label={<span>BUSINESS DAY</span>}
-            name="time"
-            rules={[{ required: true, message: 'Please input your Phone!' }]}
+            label={<span>CLOSED DAY</span>}
+            name="day"
+            rules={[{ required: true, message: 'Please input opened and closed day!' }]}
+            style={{ margin: 0 }}
           >
             <Row gutter={8} justify="center">
-              <Col span={12}>
-                <Form.Item label={<span>OPENED</span>} name="open">
-                  <Select mode="mode" style={{ width: '100%' }} tokenSeparators={[',']}>
-                    {children}
+              <Col span={24}>
+                <Form.Item name="closeDay">
+                  <Select mode="multiple" style={{ width: '100%' }} defaultValue={closeDay} onChange={onDayChange}>
+                    {optionSelectDay}
                   </Select>
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label={<span>CLOSED</span>} name="close">
-                  <Input type="date" />
                 </Form.Item>
               </Col>
             </Row>
           </Form.Item>
           <Form.Item
-            label={<span>BUSINESS HOURS</span>}
+            label={<span>OPENED AND CLOSED TIMES</span>}
             name="time"
             rules={[{ required: true, message: 'Please input your Phone!' }]}
           >
-            <Row gutter={8} justify="center">
+            <Row gutter={16} justify="center">
               <Col span={12}>
-                <Form.Item label={<span>OPENED</span>} name="open">
-                  <Input type="time" />
+                <Form.Item name="openTime">
+                  <TimePicker defaultValue={moment('10:00', format)} format={format} style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label={<span>CLOSED</span>} name="close">
-                  <Input type="time" />
+                <Form.Item name="closeTime">
+                  <TimePicker defaultValue={moment('21:00', format)} format={format} style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
             </Row>
@@ -104,16 +110,11 @@ function Information() {
           <Row justify="center">
             <Form.Item>
               <Button type="primary" htmlType="submit" style={{ width: 150, marginRight: 16 }}>
-                Register
+                Save
               </Button>
               <Button htmlType="button" onClick={onReset} style={{ width: 150 }}>
                 Reset
               </Button>
-              <Row justify="center" style={{ margin: 8 }}>
-                <Link to="/register">Register as member</Link>
-                <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
-                <Link to="/">already partner ?</Link>
-              </Row>
             </Form.Item>
           </Row>
         </Col>

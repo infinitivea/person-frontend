@@ -69,11 +69,7 @@ function Partner() {
     setDataSource(newDataSource.filter((item) => item.id !== id));
   };
 
-  return (
-    <div style={{ minHeight: '100%', backgroundColor: 'white' }}>
-      <Table bordered columns={columns} dataSource={dataSource} size="middle" pagination={{ pageSize: 10 }} />
-    </div>
-  );
+  return <Table bordered columns={columns} dataSource={dataSource} size="middle" pagination={{ pageSize: 10 }} />;
 }
 
 export default Partner;

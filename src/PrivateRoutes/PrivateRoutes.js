@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
+import { Result, Button } from 'antd';
 import RolesList from '../config/roles';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import NavLayout from '../pages/Layout/index';
 import AdminLayout from '../pages/Layout/AdminLayout/AdminLayout';
 import PartnerLayout from '../pages/Layout/PartnerLayout/PartnerLayout';
 import UserContext from '../context/UserContext';
 
-function PrivateRoutes(props) {
+function PrivateRoutes() {
   const { role } = useContext(UserContext);
+  const history = useHistory();
 
   return (
     <>
@@ -29,7 +31,20 @@ function PrivateRoutes(props) {
             )}
           </Route>
         ))}
-        <Route path="*" render={() => 'Not found'} />
+        <Route path="*">
+          <NavLayout>
+            <Result
+              status="404"
+              title="404"
+              subTitle={<span style={{ color: 'wheat' }}>Sorry, the page you visited does not exist.</span>}
+              extra={
+                <Button type="primary" onClick={() => history.push('/')}>
+                  Back Home
+                </Button>
+              }
+            />
+          </NavLayout>
+        </Route>
       </Switch>
     </>
   );

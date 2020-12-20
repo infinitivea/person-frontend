@@ -35,7 +35,7 @@ function NavLayout({ children }) {
         <img src={logo} alt="SYN HUB logo" height="64px" style={{ padding: '5px 0', objectFit: 'contain' }} />
         {!isAuthenticated && (
           <Button type="link" onClick={onClick}>
-            <Link to="/home">เข้าสู่ระบบ</Link>
+            <Link to="/home">Login</Link>
           </Button>
         )}
         {isAuthenticated && (
@@ -46,7 +46,7 @@ function NavLayout({ children }) {
               </Badge>
               <Divider type="vertical" style={{ backgroundColor: 'black' }} />
               <Button type="link" onClick={onClick}>
-                ออกจากระบบ
+                Logout
               </Button>
             </Col>
           </Row>

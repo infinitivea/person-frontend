@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Popconfirm, Space, Table } from 'antd';
 import axios from '../../../config/axios';
 
-function User() {
+function Member() {
   const [dataSource, setDataSource] = useState([]);
 
   const fetchData = () => {
@@ -53,11 +53,7 @@ function User() {
     },
   ];
 
-  return (
-    <div style={{ minHeight: '100%', backgroundColor: 'white' }}>
-      <Table bordered columns={columns} dataSource={dataSource} size="middle" pagination={{ pageSize: 10 }} />
-    </div>
-  );
+  return <Table bordered columns={columns} dataSource={dataSource} size="middle" pagination={{ pageSize: 10 }} />;
 }
 
-export default User;
+export default Member;

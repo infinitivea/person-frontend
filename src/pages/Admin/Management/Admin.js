@@ -186,7 +186,7 @@ class Admin extends React.Component {
             marginBottom: 16,
           }}
         >
-          Add a row
+          Add an admin
         </Button>
         <Table
           components={components}

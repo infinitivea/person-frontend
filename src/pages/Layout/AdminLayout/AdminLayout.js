@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Children, useContext, useEffect, useState } from 'react';
 import logo from '../../../images/SYNHUB_logo.png';
 import { Layout, Menu, Breadcrumb, notification, Badge } from 'antd';
 import { UserOutlined, LaptopOutlined, LogoutOutlined, NotificationOutlined } from '@ant-design/icons';
@@ -13,9 +13,6 @@ function AdminLayout({ children }) {
   const { isAuthenticated, setIsAuthenticated, setRole } = useContext(UserContext);
   const history = useHistory();
 
-  const [menuSelect, setMenuSelect] = useState('1');
-  console.log(typeof menuSelect);
-
   const onClick = () => {
     LocalStorageService.removeToken();
     setIsAuthenticated(false);
@@ -24,11 +21,6 @@ function AdminLayout({ children }) {
       description: 'Logout success.',
     });
     history.push('/');
-  };
-
-  const onMenuClick = ({ item, key, keyPath, domEvent }) => {
-    console.log(key);
-    setMenuSelect(key);
   };
 
   return (
@@ -46,13 +38,7 @@ function AdminLayout({ children }) {
       </Header>
       <Layout>
         <Sider width={200} theme="light">
-          <Menu
-            onSelect={onMenuClick}
-            mode="inline"
-            selectedKeys={[menuSelect]}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
+          <Menu mode="inline" defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }}>
             <SubMenu key="sub1" icon={<UserOutlined />} title="Account Management">
               <Menu.Item key="1">
                 <span>Member</span>
@@ -70,9 +56,6 @@ function AdminLayout({ children }) {
             <Menu.Item key="4" icon={<LaptopOutlined />}>
               Review Management
             </Menu.Item>
-            <Menu.Item key="sub3" icon={<NotificationOutlined />}>
-              Notification
-            </Menu.Item>
             <Menu.Item key="13" icon={<LogoutOutlined />} onClick={onClick}>
               Logout
             </Menu.Item>
@@ -80,8 +63,7 @@ function AdminLayout({ children }) {
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Management</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>{children.type.name}</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             className="site-layout-background"

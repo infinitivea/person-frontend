@@ -7,7 +7,7 @@ import UserContext from './context/UserContext';
 function App() {
   const [role, setRole] = useState(LocalStorageService.getRole());
   const [isAuthenticated, setIsAuthenticated] = useState(LocalStorageService.getToken());
-
+  console.log(role);
   return (
     <>
       <UserContext.Provider

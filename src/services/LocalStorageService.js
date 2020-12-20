@@ -14,7 +14,8 @@ const removeToken = () => {
 
 const getRole = () => {
   if (getToken()) {
-    return 'USER';
+    const role = jwt_decode(localStorage.getItem('ACCESS_TOKEN')).role;
+    return role;
   }
   return 'GUEST';
 };

@@ -6,7 +6,7 @@ import axios from '../../config/axios';
 import LocalStorageService from '../../services/LocalStorageService';
 import UserContext from '../../context/UserContext';
 
-function Login(props) {
+function Login() {
   const { Title } = Typography;
 
   const { setIsAuthenticated, setRole } = useContext(UserContext);
@@ -40,7 +40,28 @@ function Login(props) {
       });
   };
 
-  const onPartnerFinish = (values) => {};
+  const onPartnerFinish = (values) => {
+    axios
+      .post('/partners/login', {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Login success.',
+        });
+        LocalStorageService.setToken(res.data.token);
+        setRole('PARTNER');
+        setIsAuthenticated(true);
+        history.push('/partner/dashboard');
+      })
+      .catch((err) => {
+        console.log(err);
+        notification.error({
+          description: 'Login failed.',
+        });
+      });
+  };
 
   const onAdminFinish = (values) => {
     axios
@@ -73,7 +94,6 @@ function Login(props) {
           onFinish={onMemberFinish}
           style={{
             width: '100vw',
-            height: '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -135,7 +155,6 @@ function Login(props) {
           onFinish={onPartnerFinish}
           style={{
             width: '100vw',
-            height: '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -197,7 +216,6 @@ function Login(props) {
           onFinish={onAdminFinish}
           style={{
             width: '100vw',
-            height: '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',

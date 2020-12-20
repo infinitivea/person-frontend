@@ -22,7 +22,7 @@ function NavLayout({ children }) {
   };
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ minHeight: '100%' }}>
       <Header
         style={{
           display: 'flex',

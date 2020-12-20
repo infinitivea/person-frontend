@@ -1,20 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import logo from '../../../images/SYNHUB_logo.png';
-import { Layout, Menu, Breadcrumb, notification, Badge } from 'antd';
-import { UserOutlined, LaptopOutlined, LogoutOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Menu, Breadcrumb, notification } from 'antd';
+import {
+  EditOutlined,
+  LaptopOutlined,
+  LogoutOutlined,
+  CommentOutlined,
+  NotificationOutlined,
+  PieChartOutlined,
+} from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
-import UserContext from '../../../context/UserContext';
 import LocalStorageService from '../../../services/LocalStorageService';
+import UserContext from '../../../context/UserContext';
 
-function AdminLayout({ children }) {
-  const { SubMenu } = Menu;
+function PartnerLayout({ children }) {
   const { Header, Content, Sider, Footer } = Layout;
 
   const { isAuthenticated, setIsAuthenticated, setRole } = useContext(UserContext);
   const history = useHistory();
-
-  const [menuSelect, setMenuSelect] = useState('1');
-  console.log(typeof menuSelect);
 
   const onClick = () => {
     LocalStorageService.removeToken();
@@ -24,11 +27,6 @@ function AdminLayout({ children }) {
       description: 'Logout success.',
     });
     history.push('/');
-  };
-
-  const onMenuClick = ({ item, key, keyPath, domEvent }) => {
-    console.log(key);
-    setMenuSelect(key);
   };
 
   return (
@@ -46,34 +44,27 @@ function AdminLayout({ children }) {
       </Header>
       <Layout>
         <Sider width={200} theme="light">
-          <Menu
-            onSelect={onMenuClick}
-            mode="inline"
-            selectedKeys={[menuSelect]}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Account Management">
-              <Menu.Item key="1">
-                <span>Member</span>
-                <Link to="/admin/users" />
-              </Menu.Item>
-              <Menu.Item key="2">
-                <span>Partner</span>
-                <Link to="/admin/partners" />
-              </Menu.Item>
-              <Menu.Item key="3">
-                <span>Admin</span>
-                <Link to="/admin/admins" />
-              </Menu.Item>
-            </SubMenu>
-            <Menu.Item key="4" icon={<LaptopOutlined />}>
+          <Menu mode="inline" style={{ height: '100%', borderRight: 0 }}>
+            <Menu.Item key="sub1" icon={<PieChartOutlined />}>
+              <Link to="/partner/dashboard">
+                <span>Dashboard</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub2" icon={<EditOutlined />}>
+              <Link to="/partner/details">
+                <span>Information Details</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub3" icon={<LaptopOutlined />}>
+              Booking Management
+            </Menu.Item>
+            <Menu.Item key="sub4" icon={<CommentOutlined />}>
               Review Management
             </Menu.Item>
-            <Menu.Item key="sub3" icon={<NotificationOutlined />}>
+            <Menu.Item key="sub5" icon={<NotificationOutlined />}>
               Notification
             </Menu.Item>
-            <Menu.Item key="13" icon={<LogoutOutlined />} onClick={onClick}>
+            <Menu.Item key="sub6" icon={<LogoutOutlined />} onClick={onClick}>
               Logout
             </Menu.Item>
           </Menu>
@@ -100,4 +91,4 @@ function AdminLayout({ children }) {
   );
 }
 
-export default AdminLayout;
+export default PartnerLayout;

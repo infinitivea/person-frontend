@@ -56,7 +56,7 @@ function Home() {
       <Row
         style={{
           border: '1px solid black',
-          margin: '5% 20%',
+          margin: '0 20%',
         }}
       >
         <Col span={10} style={{ height: '500px' }}>

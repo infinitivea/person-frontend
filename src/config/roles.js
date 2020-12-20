@@ -2,6 +2,8 @@ import ManagementUser from '../pages/Admin/Management/User';
 import ManagementPartner from '../pages/Admin/Management/Partner';
 import ManagementAdmin from '../pages/Admin/Management/Admin';
 import CheckAvailability from '../pages/CheckAvailability';
+import Dashboard from '../pages/Home/Partner/Dashboard';
+import Information from '../pages/Home/Partner/Information';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -33,6 +35,14 @@ const components = {
     path: '/admin/admins',
     page: ManagementAdmin,
   },
+  dashboard: {
+    path: '/partner/dashboard',
+    page: Dashboard,
+  },
+  information: {
+    path: '/partner/details',
+    page: Information,
+  },
   home: {
     path: '/home',
     page: Home,
@@ -57,7 +67,7 @@ const roles = {
     components.result,
   ],
   USER: [components.home, components.check, components.result],
-  PARTNER: [components.home, components.check, components.result],
+  PARTNER: [components.dashboard, components.information],
   ADMIN: [components.manageUser, components.managePartner, components.manageAdmin],
 };
 

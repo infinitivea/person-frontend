@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Col, DatePicker, Form, Image, Input, Radio, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../../context/UserContext';
-import axios from '../../../config/axios';
-import decorate from '../../../images/decorate.jpg';
+import UserContext from '../../context/UserContext';
+import axios from '../../config/axios';
+import decorate from '../../images/decorate.jpg';
 import moment from 'moment';
 
 function Home() {
@@ -52,7 +52,7 @@ function Home() {
   };
 
   const onFinish = () => {
-    history.push({ pathname: '/check', state: { reserveDate, type, email, phone } });
+    history.push({ pathname: '/list', state: { reserveDate, type, email, phone } });
   };
 
   return (

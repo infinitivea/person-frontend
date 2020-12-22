@@ -19,16 +19,6 @@ function Booking() {
       key: 'date',
     },
     {
-      title: 'Start Time',
-      dataIndex: 'startTime',
-      key: 'startTime',
-    },
-    {
-      title: 'End Time',
-      dataIndex: 'endTime',
-      key: 'endTime',
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
@@ -46,32 +36,24 @@ function Booking() {
       name: 'John Brown',
       email: 'abc@mail.com',
       date: new Date().toLocaleDateString(),
-      startTime: new Date().toLocaleTimeString(),
-      endTime: new Date().toLocaleTimeString(),
     },
     {
       key: '2',
       name: 'Jim Green',
       email: 'abc@mail.com',
       date: new Date().toLocaleDateString(),
-      startTime: new Date().toLocaleTimeString(),
-      endTime: new Date().toLocaleTimeString(),
     },
     {
       key: '3',
       name: 'Joe Black',
       email: 'abc@mail.com',
       date: new Date().toLocaleDateString(),
-      startTime: new Date().toLocaleTimeString(),
-      endTime: new Date().toLocaleTimeString(),
     },
     {
       key: '4',
       name: 'Jane Black',
       email: 'abc@mail.com',
       date: new Date().toLocaleDateString(),
-      startTime: new Date().toLocaleTimeString(),
-      endTime: new Date().toLocaleTimeString(),
     },
   ];
   return <Table bordered columns={columns} dataSource={data} />;

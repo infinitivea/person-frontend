@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Button, Row, Col, Typography, Radio } from 'antd';
+import { Form, Input, Button, Row, Col, Typography, Radio, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
+import axios from '../../config/axios';
 
-function Partner() {
+function PartnerRegister() {
   const { Title } = Typography;
 
+  const history = useHistory();
   const { setRole } = useContext(UserContext);
   const [form] = Form.useForm();
   const [type, setType] = useState('Fitness');
@@ -19,8 +21,27 @@ function Partner() {
     form.resetFields();
   };
 
-  const onFinish = () => {
-    setRole('PARTNER');
+  const onFinish = (values) => {
+    axios
+      .post('/partners/register', {
+        email: values.email,
+        password: values.password,
+        company_name: values.name,
+        company_type: values.type,
+        phone: values.phone,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Register success.',
+        });
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        notification.error({
+          description: 'Email or Phone has already taken.',
+        });
+      });
   };
 
   return (
@@ -28,6 +49,7 @@ function Partner() {
       <Form
         form={form}
         layout="vertical"
+        initialValues={{ type }}
         onFinish={onFinish}
         style={{
           width: '100%',
@@ -89,7 +111,7 @@ function Partner() {
               label={<span style={{ color: 'wheat' }}>COMPANY TYPE</span>}
               rules={[{ required: true, message: 'Please select your Type!' }]}
             >
-              <Radio.Group defaultValue={type} size="large" buttonStyle="solid" onChange={onTypeChange}>
+              <Radio.Group size="large" buttonStyle="solid" onChange={onTypeChange}>
                 <Radio.Button value="Fitness">Fitness</Radio.Button>
                 <Radio.Button value="Auditorium">Auditorium</Radio.Button>
                 <Radio.Button value="Meeting Room">Meeting Room</Radio.Button>
@@ -124,4 +146,4 @@ function Partner() {
   );
 }
 
-export default Partner;
+export default PartnerRegister;

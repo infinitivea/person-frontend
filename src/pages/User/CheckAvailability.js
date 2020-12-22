@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, notification, Popconfirm, Table, Tag } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
-import axios from '../../../config/axios';
+import axios from '../../config/axios';
 
 function CheckAvailability() {
   const location = useLocation();
   const history = useHistory();
 
+  const [title, setTitle] = useState(location.state.title);
   const [reserveDate, setReserveDate] = useState(location.state.reserveDate);
   const [type, setType] = useState(location.state.type);
   const [email, setEmail] = useState(location.state.email);
@@ -16,6 +17,7 @@ function CheckAvailability() {
   const dataSource = [
     {
       key: '1',
+      title,
       reserveDate,
       type,
       email,
@@ -42,6 +44,11 @@ function CheckAvailability() {
   };
 
   const columns = [
+    {
+      title: 'Company Name',
+      key: 'title',
+      dataIndex: 'title',
+    },
     {
       title: 'ReservationDate',
       key: 'reserveDate',

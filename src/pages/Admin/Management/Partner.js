@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Popconfirm, Table } from 'antd';
+import axios from '../../../config/axios';
 
 function Partner() {
+  const [dataSource, setDataSource] = useState([]);
+
   const columns = [
     {
       title: 'ID',
@@ -15,18 +18,33 @@ function Partner() {
     },
     {
       title: 'Company Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'company_name',
+      key: 'company_name',
     },
     {
       title: 'Company Type',
-      dataIndex: 'type',
-      key: 'type',
+      dataIndex: 'company_type',
+      key: 'company_type',
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
       key: 'phone',
+    },
+    {
+      title: 'Close Date',
+      dataIndex: 'closeDate',
+      key: 'closeDate',
+    },
+    {
+      title: 'Open Time',
+      dataIndex: 'openTime',
+      key: 'openTime',
+    },
+    {
+      title: 'Close Time',
+      dataIndex: 'closeTime',
+      key: 'closeTime',
     },
     {
       title: 'Action',
@@ -40,29 +58,16 @@ function Partner() {
     },
   ];
 
-  const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      email: 'test@gmail.com',
-      name: 'Test',
-      type: 'Fitness',
-      phone: '0991234567',
-    },
-    {
-      id: 2,
-      email: 'test@gmail.com',
-      name: 'Test',
-      type: 'Fitness',
-      phone: '0991234567',
-    },
-    {
-      id: 3,
-      email: 'test@gmail.com',
-      name: 'Test',
-      type: 'Fitness',
-      phone: '0991234567',
-    },
-  ]);
+  const fetchData = () => {
+    axios.get('partners/all').then((res) => {
+      console.log(res.data);
+      setDataSource(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleDelete = (id) => {
     const newDataSource = [...dataSource];

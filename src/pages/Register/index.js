@@ -1,21 +1,39 @@
 import React, { useContext } from 'react';
-import { Form, Input, Button, Row, Col, Typography } from 'antd';
+import { Form, Input, Button, Row, Col, Typography, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import UserContext from '../../context/UserContext';
+import { Link, useHistory } from 'react-router-dom';
+import axios from '../../config/axios';
 
 function Register() {
   const { Title } = Typography;
 
-  const { setRole } = useContext(UserContext);
+  const history = useHistory();
   const [form] = Form.useForm();
 
   const onReset = () => {
     form.resetFields();
   };
 
-  const onFinish = () => {
-    setRole('USER');
+  const onFinish = (values) => {
+    axios
+      .post('/users/register', {
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        phone: values.phone,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Register success.',
+        });
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        notification.error({
+          description: 'Email or Phone has already taken.',
+        });
+      });
   };
 
   return (

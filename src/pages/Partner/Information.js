@@ -28,10 +28,11 @@ function Information() {
   const format = 'HH:mm';
 
   const [name, setName] = useState('');
-  const [type, setType] = useState('Fitness');
+  const [type, setType] = useState('');
   const [openTime, setOpenTime] = useState(null);
   const [closeTime, setCloseTime] = useState(null);
   const [closeDate, setCloseDate] = useState([]);
+  const [phone, setPhone] = useState('');
   const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
   const optionSelectDay = days.map((day) => (
@@ -64,9 +65,10 @@ function Information() {
         form.setFieldsValue({
           name: res.data.company_name,
           type: res.data.company_type,
-          closeDate: JSON.parse(res.data.closeDate),
-          openTime: moment(res.data.openTime, format),
-          closeTime: moment(res.data.closeTime, format),
+          closeDate: res.data.closeDate ? JSON.parse(res.data.closeDate) : closeDate,
+          openTime: res.data.openTime ? moment(res.data.openTime, format) : openTime,
+          closeTime: res.data.closeTime ? moment(res.data.closeTime, format) : closeTime,
+          phone: res.data.phone,
         });
         setName(res.data.company_name);
         setType(res.data.company_type);
@@ -107,6 +109,7 @@ function Information() {
     formData.append('closeDate', JSON.stringify(closeDate));
     formData.append('openTime', openTime);
     formData.append('closeTime', closeTime);
+    formData.append('phone', phone);
     axios.post(`/partners/upload?id=${id}`, formData).then((res) => {
       notification.success({
         description: 'Save success.',
@@ -118,6 +121,7 @@ function Information() {
     <Form
       form={form}
       layout="vertical"
+      initialValues={{ type }}
       onFinish={onFinish}
       style={{
         width: '100%',
@@ -143,7 +147,7 @@ function Information() {
             label={<span>COMPANY TYPE</span>}
             rules={[{ required: true, message: 'Please select your Type!' }]}
           >
-            <Radio.Group defaultValue={type} size="large" buttonStyle="solid" onChange={onTypeChange}>
+            <Radio.Group size="large" buttonStyle="solid" onChange={onTypeChange}>
               <Radio.Button value="Fitness">Fitness</Radio.Button>
               <Radio.Button value="Auditorium">Auditorium</Radio.Button>
               <Radio.Button value="Meeting Room">Meeting Room</Radio.Button>
@@ -184,6 +188,13 @@ function Information() {
                 </Form.Item>
               </Col>
             </Row>
+          </Form.Item>
+          <Form.Item
+            label={<span>PHONE</span>}
+            name="phone"
+            rules={[{ required: true, message: 'Please input your Phone!' }]}
+          >
+            <Input />
           </Form.Item>
           <Row justify="center">
             <Form.Item>

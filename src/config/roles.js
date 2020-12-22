@@ -8,9 +8,10 @@ import Home from '../pages/User/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import RegisterPartner from '../pages/Register/Partner';
-import Result from '../pages/Result';
+import Result from '../pages/User/BookingResult';
 import Review from '../pages/Partner/Review';
 import Booking from '../pages/Partner/Booking';
+import PartnerList from '../pages/User/PartnerList';
 
 const components = {
   login: {
@@ -57,6 +58,10 @@ const components = {
     path: '/home',
     page: Home,
   },
+  list: {
+    path: '/list',
+    page: PartnerList,
+  },
   check: {
     path: '/check',
     page: CheckAvailability,
@@ -73,10 +78,11 @@ const roles = {
     components.register,
     components.registerP,
     components.home,
+    components.list,
     components.check,
     components.result,
   ],
-  USER: [components.home, components.check, components.result],
+  USER: [components.home, components.list, components.check, components.result],
   PARTNER: [components.dashboard, components.information, components.booking, components.review],
   ADMIN: [components.manageUser, components.managePartner, components.manageAdmin],
 };

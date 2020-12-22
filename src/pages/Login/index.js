@@ -198,7 +198,7 @@ function Login() {
                     Log in
                   </Button>
                   <Button style={{ width: 150 }}>
-                    <Link to="/register">Register</Link>
+                    <Link to="/p/register">Register</Link>
                   </Button>
                   <Row justify="center" style={{ margin: 8 }}>
                     <Link to="/home">Login as Guest</Link>

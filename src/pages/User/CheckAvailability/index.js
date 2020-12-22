@@ -1,37 +1,51 @@
-import React from 'react';
-import { Button, Popconfirm, Table, Tag } from 'antd';
+import React, { useState } from 'react';
+import { Button, notification, Popconfirm, Table, Tag } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
+import axios from '../../../config/axios';
 
 function CheckAvailability() {
   const location = useLocation();
   const history = useHistory();
 
+  const [reserveDate, setReserveDate] = useState(location.state.reserveDate);
+  const [type, setType] = useState(location.state.type);
+  const [email, setEmail] = useState(location.state.email);
+  const [phone, setPhone] = useState(location.state.phone);
+  const [status, setStatus] = useState('Availability');
+
   const dataSource = [
     {
       key: '1',
-      dateStart: location.state.dateStart,
-      dateEnd: location.state.dateEnd,
-      type: location.state.type,
-      email: location.state.email,
-      phone: location.state.phone,
-      status: ['Availability'],
+      reserveDate,
+      type,
+      email,
+      phone,
+      status: [status],
     },
   ];
 
   const handleConfirm = (key) => {
+    console.log(key);
+    axios
+      .post('/bookings/create', {
+        reserve_date: reserveDate,
+        type,
+        email,
+        phone,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Booking Success.',
+        });
+      });
     history.push({ pathname: '/result', state: { dataSource } });
   };
 
   const columns = [
     {
-      title: 'StartTime',
-      key: 'dateStart',
-      dataIndex: 'dateStart',
-    },
-    {
-      title: 'EndTime',
-      key: 'dateEnd',
-      dataIndex: 'dateEnd',
+      title: 'ReservationDate',
+      key: 'reserveDate',
+      dataIndex: 'reserveDate',
     },
     {
       title: 'Booking Type',
@@ -71,7 +85,11 @@ function CheckAvailability() {
       dataIndex: 'action',
       render: (text, record) =>
         dataSource.length >= 1 ? (
-          <Popconfirm title="Sure to confirm?" onConfirm={() => handleConfirm(record.key)}>
+          <Popconfirm
+            title="Sure to confirm?"
+            onConfirm={() => handleConfirm(record.key)}
+            onCancel={() => history.push('/home')}
+          >
             <Button type="link">Confirm</Button>
           </Popconfirm>
         ) : null,

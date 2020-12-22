@@ -24,6 +24,7 @@ function Review() {
 
   return (
     <List
+      style={{ height: '100%' }}
       itemLayout="vertical"
       size="large"
       pagination={{

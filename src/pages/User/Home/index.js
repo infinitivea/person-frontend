@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import decorate from '../../../images/decorate.jpg';
 import { Button, Col, DatePicker, Form, Image, Input, Radio, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 import UserContext from '../../../context/UserContext';
 import axios from '../../../config/axios';
+import decorate from '../../../images/decorate.jpg';
+import moment from 'moment';
 
 function Home() {
-  const { RangePicker } = DatePicker;
-
   const [form] = Form.useForm();
-  const [dateStart, setDateStart] = useState('');
-  const [dateEnd, setDateEnd] = useState('');
+  const [reserveDate, setReserveDate] = useState('');
   const [type, setType] = useState('Fitness');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -25,13 +23,20 @@ function Home() {
           email: res.data.email,
           phone: res.data.phone,
         });
+        setEmail(res.data.email);
+        setPhone(res.data.phone);
       }
     });
   }, []);
 
-  const onDateChange = (dates, dateStrings) => {
-    setDateStart(dateStrings[0]);
-    setDateEnd(dateStrings[1]);
+  const disabledDate = (current) => {
+    const currentDay = new Date();
+    let customDate = `${currentDay.getFullYear()}-${currentDay.getMonth() + 1}-${currentDay.getDate()}`;
+    return current && current < moment(customDate, 'YYYY-MM-DD');
+  };
+
+  const onDateChange = (date, dateStrings) => {
+    setReserveDate(dateStrings);
   };
 
   const onTypeChange = (e) => {
@@ -47,7 +52,7 @@ function Home() {
   };
 
   const onFinish = () => {
-    history.push({ pathname: '/check', state: { dateStart, dateEnd, type, email, phone } });
+    history.push({ pathname: '/check', state: { reserveDate, type, email, phone } });
   };
 
   return (
@@ -70,14 +75,8 @@ function Home() {
         </Col>
         <Col span={14} style={{ height: '500px', backgroundColor: 'white' }}>
           <Form form={form} layout="vertical" style={{ margin: '20px 5%' }} onFinish={onFinish}>
-            <Form.Item name="dates" label={<h4>SELECT DATE AND TIME</h4>}>
-              <RangePicker
-                showTime={{ format: 'HH:mm' }}
-                format="YYYY-MM-DD HH:mm"
-                size="large"
-                style={{ width: '100%' }}
-                onChange={onDateChange}
-              />
+            <Form.Item name="dates" label={<h4>SELECT RESERVATION DATE</h4>}>
+              <DatePicker style={{ width: '100%' }} onChange={onDateChange} disabledDate={disabledDate} />
             </Form.Item>
             <Form.Item name="type" label={<h4>BOOKING TYPE</h4>}>
               <Radio.Group defaultValue={type} size="large" onChange={onTypeChange}>

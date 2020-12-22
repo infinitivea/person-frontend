@@ -38,16 +38,12 @@ function PartnerLayout({ children }) {
           alignItems: 'center',
           height: '64px',
           backgroundColor: 'lightgreen',
-          position: 'fixed',
-          zIndex: 2,
-          width: '100%',
-          padding: 0,
         }}
       >
         <img src={logo} alt="SYN HUB logo" height="64px" style={{ padding: '5px 0', objectFit: 'contain' }} />
       </Header>
       <Layout>
-        <Sider width={200} theme="light" style={{ paddingTop: 64 }}>
+        <Sider width={200} theme="light">
           <Menu mode="inline" style={{ height: '100%', borderRight: 0 }}>
             <Menu.Item key="sub1" icon={<PieChartOutlined />}>
               <Link to="/partner/dashboard">
@@ -74,16 +70,15 @@ function PartnerLayout({ children }) {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout style={{ paddingTop: 64 }}>
+        <Layout>
           <Breadcrumb style={{ margin: '16px 24px' }}>
             <Breadcrumb.Item>{children.type.name}</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             className="site-layout-background"
             style={{
-              padding: 24,
+              padding: '0 24px',
               margin: 0,
-              minHeight: 280,
             }}
           >
             {children}

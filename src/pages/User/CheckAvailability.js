@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, notification, Popconfirm, Table, Tag } from 'antd';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import axios from '../../config/axios';
+import UserContext from '../../context/UserContext';
 
 function CheckAvailability() {
   const location = useLocation();
   const history = useHistory();
+
+  const { id } = useContext(UserContext);
+  const param = useParams();
 
   const [title, setTitle] = useState(location.state.title);
   const [reserveDate, setReserveDate] = useState(location.state.reserveDate);
@@ -27,13 +31,14 @@ function CheckAvailability() {
   ];
 
   const handleConfirm = (key) => {
-    console.log(key);
     axios
-      .post('/bookings/create', {
+      .post(`/bookings/create/${param.id}`, {
+        company_name: title,
         reserve_date: reserveDate,
         type,
         email,
         phone,
+        user_id: id,
       })
       .then((res) => {
         notification.success({

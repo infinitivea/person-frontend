@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Button, Row, Col, Typography, Radio, notification } from 'antd';
+import { Form, Input, Button, Row, Col, Typography, Radio, notification, TimePicker, Select } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
@@ -7,14 +7,43 @@ import axios from '../../config/axios';
 
 function PartnerRegister() {
   const { Title } = Typography;
+  const { Option } = Select;
 
   const history = useHistory();
   const { setRole } = useContext(UserContext);
   const [form] = Form.useForm();
   const [type, setType] = useState('Fitness');
+  const [closeDate, setCloseDate] = useState([]);
+  const [openTime, setOpenTime] = useState(null);
+  const [closeTime, setCloseTime] = useState(null);
+
+  const format = 'HH:mm';
+  const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+
+  const optionSelectDay = days.map((day) => (
+    <Option key={day} value={day}>
+      {day}
+    </Option>
+  ));
 
   const onTypeChange = (e) => {
     setType(e.target.value);
+  };
+
+  const onDayChange = (day) => {
+    setCloseDate(day);
+  };
+
+  const onOpenTime = (time) => {
+    if (time) {
+      setOpenTime(time.format(format));
+    }
+  };
+
+  const onCloseTime = (time) => {
+    if (time) {
+      setCloseTime(time.format(format));
+    }
   };
 
   const onReset = () => {
@@ -123,6 +152,41 @@ function PartnerRegister() {
               rules={[{ required: true, message: 'Please input your Phone!' }]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item label={<span style={{ color: 'wheat' }}>CLOSED DAY</span>} required>
+              <Row gutter={8} justify="center">
+                <Col span={24}>
+                  <Form.Item
+                    name="closeDate"
+                    rules={[{ required: true, message: 'Please input your Closed Day!' }]}
+                    style={{ margin: 0 }}
+                  >
+                    <Select
+                      style={{ width: '100%' }}
+                      mode="multiple"
+                      placeholder="Please select day"
+                      value={closeDate}
+                      onChange={onDayChange}
+                    >
+                      {optionSelectDay}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form.Item>
+            <Form.Item label={<span style={{ color: 'wheat' }}>OPENED AND CLOSED TIMES</span>} required>
+              <Row gutter={16} justify="center">
+                <Col span={12} style={{ marginBottom: 0 }}>
+                  <Form.Item name="openTime" rules={[{ required: true, message: 'Please input your Open Times!' }]}>
+                    <TimePicker style={{ width: '100%' }} format={format} value={openTime} onChange={onOpenTime} />
+                  </Form.Item>
+                </Col>
+                <Col span={12} style={{ marginBottom: 0 }}>
+                  <Form.Item name="closeTime" rules={[{ required: true, message: 'Please input your Close Times!' }]}>
+                    <TimePicker style={{ width: '100%' }} format={format} value={closeTime} onChange={onCloseTime} />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Form.Item>
             <Row justify="center">
               <Form.Item>

@@ -43,7 +43,6 @@ function Information() {
 
   const props = {
     name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     headers: {
       authorization: 'authorization-text',
     },
@@ -153,15 +152,26 @@ function Information() {
               <Radio.Button value="Meeting Room">Meeting Room</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="image">
+          <Form.Item name="image" label={<span>UPLOAD IMAGES</span>} required>
             <Upload {...props}>
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
           </Form.Item>
-          <Form.Item label={<span>CLOSED DAY</span>} style={{ marginBottom: 8 }}>
+          <Form.Item
+            label={<span>PHONE</span>}
+            name="phone"
+            rules={[{ required: true, message: 'Please input your Phone!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item label={<span>CLOSED DAY</span>} style={{ marginBottom: 8 }} required>
             <Row gutter={8} justify="center">
               <Col span={24}>
-                <Form.Item name="closeDate" style={{ margin: 0 }}>
+                <Form.Item
+                  name="closeDate"
+                  rules={[{ required: true, message: 'Please input your Close Day!' }]}
+                  style={{ margin: 0 }}
+                >
                   <Select
                     style={{ width: '100%' }}
                     mode="multiple"
@@ -175,26 +185,19 @@ function Information() {
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item label={<span>OPENED AND CLOSED TIMES</span>} style={{ marginBottom: 0 }}>
+          <Form.Item label={<span>OPENED AND CLOSED TIMES</span>} style={{ marginBottom: 0 }} required>
             <Row gutter={16} justify="center">
               <Col span={12} style={{ marginBottom: 0 }}>
-                <Form.Item name="openTime">
+                <Form.Item name="openTime" rules={[{ required: true, message: 'Please input your Open Times!' }]}>
                   <TimePicker style={{ width: '100%' }} format={format} value={openTime} onChange={onOpenTime} />
                 </Form.Item>
               </Col>
               <Col span={12} style={{ marginBottom: 0 }}>
-                <Form.Item name="closeTime">
+                <Form.Item name="closeTime" rules={[{ required: true, message: 'Please input your Close Times!' }]}>
                   <TimePicker style={{ width: '100%' }} format={format} value={closeTime} onChange={onCloseTime} />
                 </Form.Item>
               </Col>
             </Row>
-          </Form.Item>
-          <Form.Item
-            label={<span>PHONE</span>}
-            name="phone"
-            rules={[{ required: true, message: 'Please input your Phone!' }]}
-          >
-            <Input />
           </Form.Item>
           <Row justify="center">
             <Form.Item>

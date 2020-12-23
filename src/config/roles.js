@@ -63,7 +63,7 @@ const components = {
     page: PartnerList,
   },
   check: {
-    path: '/check',
+    path: '/check/:id',
     page: CheckAvailability,
   },
   result: {

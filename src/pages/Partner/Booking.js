@@ -1,13 +1,27 @@
-import { Space, Table } from 'antd';
-import React from 'react';
+import { Button, notification, Space, Table } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import UserContext from '../../context/UserContext';
+import axios from '../../config/axios';
 
 function Booking() {
+  const { id } = useContext(UserContext);
+  const [data, setData] = useState([]);
+
+  const onAccept = (bookingId) => {
+    axios
+      .patch('/bookings/approve', {
+        booking_id: bookingId,
+        partner_id: id,
+      })
+      .then((res) => {
+        notification.success({
+          description: 'Accept success.',
+        });
+        fetchData();
+      });
+  };
+
   const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
     {
       title: 'Email',
       dataIndex: 'email',
@@ -15,47 +29,38 @@ function Booking() {
     },
     {
       title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'reserve_date',
+      key: 'reserve_date',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
     },
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <a>Accept</a>
-          <a>Delete</a>
+          <Button type="primary" onClick={() => onAccept(record.id)}>
+            Accept
+          </Button>
+          <Button danger>Delete</Button>
         </Space>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      email: 'abc@mail.com',
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      email: 'abc@mail.com',
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      email: 'abc@mail.com',
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      key: '4',
-      name: 'Jane Black',
-      email: 'abc@mail.com',
-      date: new Date().toLocaleDateString(),
-    },
-  ];
+  const fetchData = () => {
+    axios.get(`/bookings?id=${id}`).then((res) => {
+      setData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return <Table bordered columns={columns} dataSource={data} />;
 }
 

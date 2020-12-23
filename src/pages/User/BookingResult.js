@@ -5,8 +5,6 @@ import { Link, useLocation } from 'react-router-dom';
 function BookingResult() {
   const location = useLocation();
 
-  console.log(location);
-
   return (
     <Result
       status="success"

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, Card, Row, Col, Typography, Tag, Button } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
+import axios from '../../config/axios';
 
 function PartnerList() {
   const { Text } = Typography;
@@ -8,6 +9,7 @@ function PartnerList() {
   const location = useLocation();
   const history = useHistory();
 
+  const [data, setData] = useState([]);
   const [title, setTitle] = useState('Fitness First');
   const [reserveDate, setReserveDate] = useState(location.state.reserveDate);
   const [type, setType] = useState(location.state.type);
@@ -15,38 +17,15 @@ function PartnerList() {
   const [phone, setPhone] = useState(location.state.phone);
   const [status, setStatus] = useState(false);
 
-  console.log(title);
+  useEffect(() => {
+    axios.get('/partners/all').then((res) => {
+      console.log(res.data);
+      setData(res.data);
+    });
+  }, []);
 
-  const data = [
-    {
-      title: 'Title 1',
-    },
-    {
-      title: 'Title 2',
-    },
-    {
-      title: 'Title 3',
-    },
-    {
-      title: 'Title 4',
-    },
-    {
-      title: 'Title 5',
-    },
-    {
-      title: 'Title 6',
-    },
-    {
-      title: 'Title 7',
-    },
-    {
-      title: 'Title 8',
-    },
-  ];
-
-  const onBooking = (e) => {
-    console.log(e);
-    history.push({ pathname: '/check', state: { title, reserveDate, type, email, phone } });
+  const onBooking = (title, id) => {
+    history.push({ pathname: `/check/${id}`, state: { title, reserveDate, type, email, phone } });
     setStatus(!status);
   };
   const onCancel = () => {
@@ -65,33 +44,33 @@ function PartnerList() {
         xxl: 4,
       }}
       dataSource={data}
-      renderItem={(item, index) => (
+      renderItem={(item) => (
         <List.Item>
-          <Card key={index} title={item.title}>
+          <Card title={item.company_name}>
             <Row gutter={16} justify="center">
               <Col span={7}>
-                <img
-                  alt="room image"
-                  src="https://lh3.googleusercontent.com/proxy/ADtjhP7t2cPxjIMpL52_bBxxAxNN7hwO3LLYitb7utxVNlTNMIsO1pqUzc4zisIbXKRDh8wpotbC0ECcs1bq716JmjJiCJHS8HfNc4yARAbh8zqDe0BCBlGn-jNmCg"
-                  width="100%"
-                  height="100%"
-                  style={{ objectFit: 'cover' }}
-                />
+                <img alt="room image" src={item.image} width="100%" height="100%" style={{ objectFit: 'cover' }} />
               </Col>
               <Col span={10}>
                 <Row>
-                  <Tag color="green">Availability</Tag>
+                  <Tag color={item.status === 'Availability' ? 'green' : 'volcano'}>{item.status}</Tag>
                 </Row>
                 <Row>
-                  <Text>Time: 9:00 - 21:00</Text>
+                  <Text>
+                    Time: {item.openTime} - {item.closeTime}
+                  </Text>
                 </Row>
                 <Row>
-                  <Text type="danger">Closed: Sat Sun</Text>
+                  <Text type="danger">Closed: {JSON.parse(item.closeDate).join(' ')}</Text>
                 </Row>
               </Col>
               <Col span={7}>
                 {!status ? (
-                  <Button style={{ width: '100%' }} type="primary" onClick={onBooking}>
+                  <Button
+                    style={{ width: '100%' }}
+                    type="primary"
+                    onClick={() => onBooking(item.company_name, item.id)}
+                  >
                     Booking
                   </Button>
                 ) : (

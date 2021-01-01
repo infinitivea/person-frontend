@@ -1,6 +1,6 @@
+import { notification } from 'antd';
 import axios from 'axios';
 import LocalStorageService from '../services/LocalStorageService';
-import { notification } from 'antd';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 

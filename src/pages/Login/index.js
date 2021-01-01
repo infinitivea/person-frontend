@@ -10,12 +10,7 @@ function Login() {
   const { Title } = Typography;
 
   const { setIsAuthenticated, setRole } = useContext(UserContext);
-  const [type, setType] = useState('MEMBER');
   const history = useHistory();
-
-  const onTypeChange = (e) => {
-    setType(e.target.value);
-  };
 
   const onMemberFinish = (values) => {
     axios
@@ -28,55 +23,19 @@ function Login() {
           description: 'Login success.',
         });
         LocalStorageService.setToken(res.data.token);
-        setRole('USER');
-        setIsAuthenticated(true);
-        history.push('/home');
-      })
-      .catch((err) => {
-        console.log(err);
-        notification.error({
-          description: 'Login failed.',
-        });
-      });
-  };
-
-  const onPartnerFinish = (values) => {
-    axios
-      .post('/partners/login', {
-        email: values.email,
-        password: values.password,
-      })
-      .then((res) => {
-        notification.success({
-          description: 'Login success.',
-        });
-        LocalStorageService.setToken(res.data.token);
-        setRole('PARTNER');
-        setIsAuthenticated(true);
-        history.push('/partner/dashboard');
-      })
-      .catch((err) => {
-        console.log(err);
-        notification.error({
-          description: 'Login failed.',
-        });
-      });
-  };
-
-  const onAdminFinish = (values) => {
-    axios
-      .post('/admins/login', {
-        username: values.username,
-        password: values.password,
-      })
-      .then((res) => {
-        notification.success({
-          description: 'Login success.',
-        });
-        LocalStorageService.setToken(res.data.token);
-        setRole('ADMIN');
-        setIsAuthenticated(true);
-        history.push('/admin/users');
+        if (LocalStorageService.getRole() === 'USER') {
+          setRole(LocalStorageService.getRole());
+          setIsAuthenticated(true);
+          history.push('/home');
+        } else if (LocalStorageService.getRole() === 'PARTNER') {
+          setRole(LocalStorageService.getRole());
+          setIsAuthenticated(true);
+          history.push('/partner/dashboard');
+        } else {
+          setRole(LocalStorageService.getRole());
+          setIsAuthenticated(true);
+          history.push('/admin/users');
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -88,190 +47,57 @@ function Login() {
 
   return (
     <>
-      {type === 'MEMBER' ? (
-        <Form
-          layout="vertical"
-          onFinish={onMemberFinish}
-          style={{
-            width: '100vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Row>
-            <Title underline="true" style={{ color: 'wheat' }}>
-              LOGIN
-            </Title>
-          </Row>
-          <Radio.Group defaultValue="MEMBER" size="large" buttonStyle="solid" onChange={onTypeChange}>
-            <Radio.Button value="MEMBER" style={{ marginRight: 8 }}>
-              MEMBER
-            </Radio.Button>
-            <Radio.Button value="PARTNER" style={{ marginRight: 8 }}>
-              PARTNER
-            </Radio.Button>
-            <Radio.Button value="ADMIN">ADMIN</Radio.Button>
-          </Radio.Group>
-          <Row justify="center" style={{ width: '100%' }}>
-            <Col span={12}>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>EMAIL</span>}
-                name="email"
-                rules={[{ required: true, message: 'Please input your Email!' }]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Please input your email." type="email" />
+      <Form
+        layout="vertical"
+        onFinish={onMemberFinish}
+        style={{
+          width: '100vw',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Row>
+          <Title underline="true" style={{ color: 'wheat' }}>
+            LOGIN
+          </Title>
+        </Row>
+        <Row justify="center" style={{ width: '100%' }}>
+          <Col span={12}>
+            <Form.Item
+              label={<span style={{ color: 'wheat' }}>EMAIL</span>}
+              name="email"
+              rules={[{ required: true, message: 'Please input your Email!' }]}
+            >
+              <Input prefix={<UserOutlined />} placeholder="Please input your email." type="email" />
+            </Form.Item>
+            <Form.Item
+              label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
+              name="password"
+              style={{ color: 'wheat' }}
+              rules={[{ required: true, message: 'Please input your Password!' }]}
+            >
+              <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
+            </Form.Item>
+            <Row justify="center">
+              <Form.Item>
+                <Button type="primary" htmlType="submit" style={{ width: 150, marginRight: 16 }}>
+                  Log in
+                </Button>
+                <Button style={{ width: 150 }}>
+                  <Link to="/register">Register</Link>
+                </Button>
+                <Row justify="center" style={{ margin: 8 }}>
+                  <Link to="/home">Login as Guest</Link>
+                  <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
+                  <Link to="">forget password</Link>
+                </Row>
               </Form.Item>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
-                name="password"
-                style={{ color: 'wheat' }}
-                rules={[{ required: true, message: 'Please input your Password!' }]}
-              >
-                <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
-              </Form.Item>
-              <Row justify="center">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ width: 150, marginRight: 16 }}>
-                    Log in
-                  </Button>
-                  <Button style={{ width: 150 }}>
-                    <Link to="/register">Register</Link>
-                  </Button>
-                  <Row justify="center" style={{ margin: 8 }}>
-                    <Link to="/home">Login as Guest</Link>
-                    <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
-                    <Link to="">forget password</Link>
-                  </Row>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-        </Form>
-      ) : type === 'PARTNER' ? (
-        <Form
-          layout="vertical"
-          onFinish={onPartnerFinish}
-          style={{
-            width: '100vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Row>
-            <Title underline="true" style={{ color: 'wheat' }}>
-              LOGIN
-            </Title>
-          </Row>
-          <Radio.Group defaultValue="MEMBER" size="large" buttonStyle="solid" onChange={onTypeChange}>
-            <Radio.Button value="MEMBER" style={{ marginRight: 8 }}>
-              MEMBER
-            </Radio.Button>
-            <Radio.Button value="PARTNER" style={{ marginRight: 8 }}>
-              PARTNER
-            </Radio.Button>
-            <Radio.Button value="ADMIN">ADMIN</Radio.Button>
-          </Radio.Group>
-          <Row justify="center" style={{ width: '100%' }}>
-            <Col span={12}>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>EMAIL</span>}
-                name="email"
-                rules={[{ required: true, message: 'Please input your Email!' }]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Please input your email." type="email" />
-              </Form.Item>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
-                name="password"
-                style={{ color: 'wheat' }}
-                rules={[{ required: true, message: 'Please input your Password!' }]}
-              >
-                <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
-              </Form.Item>
-              <Row justify="center">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ width: 150, marginRight: 16 }}>
-                    Log in
-                  </Button>
-                  <Button style={{ width: 150 }}>
-                    <Link to="/p/register">Register</Link>
-                  </Button>
-                  <Row justify="center" style={{ margin: 8 }}>
-                    <Link to="/home">Login as Guest</Link>
-                    <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
-                    <Link to="">forget password</Link>
-                  </Row>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-        </Form>
-      ) : (
-        <Form
-          layout="vertical"
-          onFinish={onAdminFinish}
-          style={{
-            width: '100vw',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Row>
-            <Title underline="true" style={{ color: 'wheat' }}>
-              LOGIN
-            </Title>
-          </Row>
-          <Radio.Group defaultValue="MEMBER" size="large" buttonStyle="solid" onChange={onTypeChange}>
-            <Radio.Button value="MEMBER" style={{ marginRight: 8 }}>
-              MEMBER
-            </Radio.Button>
-            <Radio.Button value="PARTNER" style={{ marginRight: 8 }}>
-              PARTNER
-            </Radio.Button>
-            <Radio.Button value="ADMIN">ADMIN</Radio.Button>
-          </Radio.Group>
-          <Row justify="center" style={{ width: '100%' }}>
-            <Col span={12}>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>USERNAME</span>}
-                name="username"
-                rules={[{ required: true, message: 'Please input your Username!' }]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Please input your username." />
-              </Form.Item>
-              <Form.Item
-                label={<span style={{ color: 'wheat' }}>PASSWORD</span>}
-                name="password"
-                style={{ color: 'wheat' }}
-                rules={[{ required: true, message: 'Please input your Password!' }]}
-              >
-                <Input prefix={<LockOutlined />} placeholder="Please input your password." type="password" />
-              </Form.Item>
-              <Row justify="center">
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" style={{ width: 150, marginRight: 16 }}>
-                    Log in
-                  </Button>
-                  <Button style={{ width: 150 }}>
-                    <Link to="/register">Register</Link>
-                  </Button>
-                  <Row justify="center" style={{ margin: 8 }}>
-                    <Link to="/home">Login as Guest</Link>
-                    <span style={{ margin: '0 8px', color: 'wheat' }}>Or</span>
-                    <Link to="">forget password</Link>
-                  </Row>
-                </Form.Item>
-              </Row>
-            </Col>
-          </Row>
-        </Form>
-      )}
+            </Row>
+          </Col>
+        </Row>
+      </Form>
     </>
   );
 }
